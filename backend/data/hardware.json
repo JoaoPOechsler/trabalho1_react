@@ -5,14 +5,6 @@
     "marca": "AMD",
     "categoria": "Processador",
     "preco": 3099.9,
-    "estoque": "2"
-  },
-  {
-    "id": 1773701205623,
-    "nome": "Teste",
-    "marca": "Teste",
-    "categoria": "Teste",
-    "preco": "12312",
-    "estoque": "13212312"
+    "estoque": "8"
   }
 ]
