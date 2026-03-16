@@ -112,45 +112,84 @@ button:hover {
   font-weight: bold;
 }
 
-.home{
+.home {
   max-width: 1100px;
   margin: auto;
 }
 
-table{
+table {
   margin-top: 20px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
   overflow: hidden;
 }
 
-th{
-  background:#2f80ed;
-  color:white;
-  font-weight:600;
+th {
+  background: #2f80ed;
+  color: white;
+  font-weight: 600;
 }
 
-tbody tr:nth-child(even){
-  background:#fafafa;
+tbody tr:nth-child(even) {
+  background: #fafafa;
 }
 
-td{
-  font-size:14px;
+td {
+  font-size: 14px;
 }
 
-td a{
-  margin-right:10px;
-  font-weight:bold;
+td a {
+  margin-right: 10px;
+  font-weight: bold;
 }
 
-td a:first-child{
-  color:#2f80ed;
+td a:first-child {
+  color: #2f80ed;
 }
 
-td a:last-child{
-  color:#e74c3c;
+td a:last-child {
+  color: #e74c3c;
 }
 
-td a:hover{
+td a:hover {
   text-decoration: underline;
+}
+
+
+.form-container {
+  max-width: 1100px;
+  margin: auto;
+  margin-top: 20px;
+  background: white;
+  padding: 25px;
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-row input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-row input:focus {
+  outline: none;
+  border-color: #2f80ed;
+}
+
+.form-row button {
+  padding: 10px 20px;
+  font-weight: bold;
 }

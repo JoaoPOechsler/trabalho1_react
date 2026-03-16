@@ -1,64 +1,104 @@
-import { useState } from "react"
-import { useParams } from "react-router-dom"
-import { handleUpdateHardware } from "./handleUpdateHardware"
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function UpdateHardware(){
+function UpdateHardware() {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const {id} = useParams()
+  const [nome, setNome] = useState("");
+  const [marca, setMarca] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [preco, setPreco] = useState("");
+  const [estoque, setEstoque] = useState("");
 
-  const [form,setForm] = useState({
-    nome:"",
-    marca:"",
-    categoria:"",
-    preco:"",
-    estoque:""
-  })
+  useEffect(() => {
+    carregarHardware();
+  }, []);
 
-  function handleChange(e){
+  async function carregarHardware() {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/hardware/listar_hardware/${id}`
+      );
 
-    setForm({
-      ...form,
-      [e.target.name]:e.target.value
-    })
+      const hardware = response.data;
 
+      setNome(hardware.nome);
+      setMarca(hardware.marca);
+      setCategoria(hardware.categoria);
+      setPreco(hardware.preco);
+      setEstoque(hardware.estoque);
+    } catch (error) {
+      console.error("Erro ao carregar hardware", error);
+    }
   }
 
-  async function handleSubmit(e){
+  async function handleUpdate(e) {
+    e.preventDefault();
 
-    e.preventDefault()
+    try {
+      await axios.put(`http://localhost:3000/hardware/atualizar_hardware/${id}`, {
+        nome,
+        marca,
+        categoria,
+        preco,
+        estoque,
+      });
 
-    await handleUpdateHardware(id,form)
-
-    alert("Atualizado!")
-
+      alert("Hardware atualizado com sucesso!");
+      navigate("/listar");
+    } catch (error) {
+      console.error("Erro ao atualizar", error);
+    }
   }
 
-  return(
-
-    <div className="container">
-
+  return (
+    <div className="form-container">
       <h2>Atualizar Hardware</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleUpdate}>
+        <div className="form-row">
+          <input
+            type="text"
+            placeholder="Nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
 
-        <input name="nome" placeholder="Nome" onChange={handleChange} />
+          <input
+            type="text"
+            placeholder="Marca"
+            value={marca}
+            onChange={(e) => setMarca(e.target.value)}
+          />
 
-        <input name="marca" placeholder="Marca" onChange={handleChange} />
+          <input
+            type="text"
+            placeholder="Categoria"
+            value={categoria}
+            onChange={(e) => setCategoria(e.target.value)}
+          />
 
-        <input name="categoria" placeholder="Categoria" onChange={handleChange} />
+          <input
+            type="number"
+            placeholder="Preço"
+            value={preco}
+            onChange={(e) => setPreco(e.target.value)}
+          />
 
-        <input name="preco" placeholder="Preço" onChange={handleChange} />
+          <input
+            type="number"
+            placeholder="Estoque"
+            value={estoque}
+            onChange={(e) => setEstoque(e.target.value)}
+          />
 
-        <input name="estoque" placeholder="Estoque" onChange={handleChange} />
-
-        <button type="submit">Atualizar</button>
-
+          <button type="submit">Atualizar</button>
+        </div>
       </form>
-
     </div>
-
-  )
-
+  );
 }
 
-export default UpdateHardware
+export default UpdateHardware;

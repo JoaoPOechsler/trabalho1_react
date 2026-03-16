@@ -1,46 +1,82 @@
-import { useState } from "react"
-import { handleCreateHardware } from "./handleCreateHardware"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function CreateHardware() {
+function CadastrarHardware() {
+    const navigate = useNavigate();
 
-    const [form, setForm] = useState({
-        nome: "",
-        marca: "",
-        categoria: "",
-        preco: "",
-        estoque: ""
-    })
-
-    function handleChange(e) {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
-    }
+    const [nome, setNome] = useState("");
+    const [marca, setMarca] = useState("");
+    const [categoria, setCategoria] = useState("");
+    const [preco, setPreco] = useState("");
+    const [estoque, setEstoque] = useState("");
 
     async function handleSubmit(e) {
-        e.preventDefault()
-        await handleCreateHardware(form)
-        alert("Produto cadastrado!")
+        e.preventDefault();
+
+        try {
+            await axios.post("http://localhost:3000/hardware/cadastrar_hardware", {
+                nome,
+                marca,
+                categoria,
+                preco,
+                estoque,
+            });
+
+            alert("Hardware cadastrado com sucesso!");
+
+            navigate("/listar");
+        } catch (error) {
+            console.error("Erro ao cadastrar hardware", error);
+        }
     }
 
     return (
-
-        <div className="container">
+        <div className="form-container">
             <h2>Cadastrar Hardware</h2>
 
             <form onSubmit={handleSubmit}>
-                <input name="nome" placeholder="Nome" onChange={handleChange} />
-                <input name="marca" placeholder="Marca" onChange={handleChange} />
-                <input name="categoria" placeholder="Categoria" onChange={handleChange} />
-                <input name="preco" placeholder="Preço" onChange={handleChange} />
-                <input name="estoque" placeholder="Estoque" onChange={handleChange} />
-                <button type="submit">Cadastrar</button>
+                <div className="form-row">
+                    <input
+                        type="text"
+                        placeholder="Nome"
+                        value={nome}
+                        onChange={(e) => setNome(e.target.value)}
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Marca"
+                        value={marca}
+                        onChange={(e) => setMarca(e.target.value)}
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Categoria"
+                        value={categoria}
+                        onChange={(e) => setCategoria(e.target.value)}
+                    />
+
+                    <input
+                        type="number"
+                        placeholder="Preço"
+                        value={preco}
+                        onChange={(e) => setPreco(e.target.value)}
+                    />
+
+                    <input
+                        type="number"
+                        placeholder="Estoque"
+                        value={estoque}
+                        onChange={(e) => setEstoque(e.target.value)}
+                    />
+
+                    <button type="submit">Cadastrar</button>
+                </div>
             </form>
         </div>
-
-    )
-
+    );
 }
 
-export default CreateHardware
+export default CadastrarHardware;
